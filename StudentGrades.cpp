@@ -31,8 +31,14 @@ int main()
     int studentCount = 0;
     int testCount = 0;
 
-    readGradeData(students, studentCount, testCount);
-    
+    if (!readGradeData(students, studentCount, testCount))
+    {
+        releaseMemory(students, studentCount);
+        return 1;
+    }
+
+    releaseMemory(students, studentCount);
+
     return 0;
 }
 
@@ -56,5 +62,56 @@ bool readGradeData(Student*& students, int& studentCount, int& testCount)
     cout << "Students: " << studentCount << endl;
     cout << "Tests: " << testCount << endl;
 
-    return true; // Temporary: header validation test only
+    // Allocate the Student array
+    students = new Student[studentCount];
+
+    cout << "Allocated memory for " << studentCount << " students." << endl;
+
+    // Allocate a score array for each student
+    for (int student = 0; student < studentCount; student++)
+    {
+        students[student].scores = new double[testCount];
+    }
+
+    cout << "Allocated score arrays for " << studentCount << " students." << endl;
+
+    for (int student = 0; student < studentCount; student++)
+{
+    // Read the student's name and ID
+    if (!(inputFile >> students[student].lastName
+                    >> students[student].studentID))
+    {
+        cout << "Error reading student information." << endl;
+        return false;
+    }
+
+    // Read the student's test scores
+    for (int test = 0; test < testCount; test++)
+    {
+        if (!(inputFile >> students[student].scores[test]))
+        {
+            cout << "Error reading test scores." << endl;
+            return false;
+        }
+    }
+}
+
+    return true; // Temporary: allocation test only
+}
+
+void releaseMemory(Student*& students, int studentCount)
+{
+    if (students == nullptr)
+    {
+        return;
+    }
+
+    for (int student = 0; student < studentCount; student++)
+    {
+        delete[] students[student].scores;
+        students[student].scores = nullptr;
+    }
+
+    delete[] students;
+    students = nullptr;
 }
