@@ -37,6 +37,15 @@ int main()
         return 1;
     }
 
+    calculateAverages(students, studentCount, testCount);
+
+    // Temporary output to verify the calculations
+    cout << "First student: " << students[0].lastName << endl;
+    cout << "Student ID: " << students[0].studentID << endl;
+    cout << "First test score: " << students[0].scores[0] << endl;
+    cout << fixed << setprecision(2);
+    cout << "Average: " << students[0].average << endl;
+
     releaseMemory(students, studentCount);
 
     return 0;
@@ -97,6 +106,21 @@ bool readGradeData(Student*& students, int& studentCount, int& testCount)
 }
 
     return true; // Temporary: allocation test only
+}
+
+void calculateAverages(Student students[], int studentCount, int testCount)
+{
+    for (int student = 0; student < studentCount; student++)
+    {
+        double total = 0;
+
+        for (int test = 0; test < testCount; test++)
+        {
+            total += students[student].scores[test];
+        }
+
+        students[student].average = total / testCount;
+    }
 }
 
 void releaseMemory(Student*& students, int studentCount)
