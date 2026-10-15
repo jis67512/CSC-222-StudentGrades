@@ -46,6 +46,11 @@ int main()
     cout << fixed << setprecision(2);
     cout << "Average: " << students[0].average << endl;
 
+    assignLetterGrades(students, studentCount);
+    
+    //Temporary output to verify the letter grade
+    cout << "Letter Grade: " << students[0].letterGrade << endl;
+    
     releaseMemory(students, studentCount);
 
     return 0;
@@ -123,6 +128,34 @@ void calculateAverages(Student students[], int studentCount, int testCount)
     }
 }
 
+void assignLetterGrades(Student students[], int studentCount)
+{
+    for (int student = 0; student < studentCount; student++)
+    {
+        double average = students[student].average;
+
+        if (average >= 90)
+        {
+            students[student].letterGrade = 'A';
+        }
+        else if (average >= 80)
+        {
+            students[student].letterGrade = 'B';
+        }
+        else if (average >= 70)
+        {
+            students[student].letterGrade = 'C';
+        }
+        else if (average >= 60)
+        {
+            students[student].letterGrade = 'D';
+        }
+        else
+        {
+            students[student].letterGrade = 'F';
+        }
+    }
+}
 void releaseMemory(Student*& students, int studentCount)
 {
     if (students == nullptr)
