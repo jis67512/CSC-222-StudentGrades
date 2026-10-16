@@ -39,17 +39,9 @@ int main()
 
     calculateAverages(students, studentCount, testCount);
 
-    // Temporary output to verify the calculations
-    cout << "First student: " << students[0].lastName << endl;
-    cout << "Student ID: " << students[0].studentID << endl;
-    cout << "First test score: " << students[0].scores[0] << endl;
-    cout << fixed << setprecision(2);
-    cout << "Average: " << students[0].average << endl;
-
     assignLetterGrades(students, studentCount);
     
-    //Temporary output to verify the letter grade
-    cout << "Letter Grade: " << students[0].letterGrade << endl;
+    displayReport( students, studentCount, testCount);
     
     releaseMemory(students, studentCount);
 
@@ -92,8 +84,7 @@ bool readGradeData(Student*& students, int& studentCount, int& testCount)
     for (int student = 0; student < studentCount; student++)
 {
     // Read the student's name and ID
-    if (!(inputFile >> students[student].lastName
-                    >> students[student].studentID))
+    if (!(inputFile >> students[student].lastName >> students[student].studentID))
     {
         cout << "Error reading student information." << endl;
         return false;
@@ -110,7 +101,7 @@ bool readGradeData(Student*& students, int& studentCount, int& testCount)
     }
 }
 
-    return true; // Temporary: allocation test only
+    return true; 
 }
 
 void calculateAverages(Student students[], int studentCount, int testCount)
@@ -155,6 +146,33 @@ void assignLetterGrades(Student students[], int studentCount)
             students[student].letterGrade = 'F';
         }
     }
+}
+
+void displayReport(const Student students[], int studentCount, int testCount)
+{
+    cout << fixed << setprecision(2);
+
+    cout << left << setw(15) << "Last Name" << setw(12) << "Student ID";
+
+    for (int test = 0; test < testCount; test++)
+    {
+        cout << right << setw(10) << ("Test " + to_string(test + 1));
+    }
+
+    cout << setw(12) << "Average" << setw(10) << "Grade" << endl;
+
+// Display every student
+for (int student = 0; student < studentCount; student++)
+{
+    cout << left << setw(15) << students[student].lastName << setw(12) << students[student].studentID;
+    // Display student's scores
+    for (int test = 0; test < testCount; test++)
+    {
+        cout << right << setw(10) << students[student].scores[test];
+    }
+
+    cout << setw(12) << students[student].average << setw(10) << students[student].letterGrade << endl;
+}
 }
 void releaseMemory(Student*& students, int studentCount)
 {
