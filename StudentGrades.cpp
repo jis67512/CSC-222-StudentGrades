@@ -1,3 +1,19 @@
+/*
+    CSC 222 - Student Grades Project
+    Author: James Scott
+    Date: October 14, 2026
+
+    Description:
+    This program reads student information and test scores
+    from an input file. It uses dynamic memory allocation
+    to store student records and their test scores,
+    calculates each student's average, assigns a letter
+    grade, and displays a formatted report.
+
+    The program releases all dynamically allocated memory
+    before terminating.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -65,21 +81,17 @@ bool readGradeData(Student*& students, int& studentCount, int& testCount)
         return false;
     }
 
-    cout << "Students: " << studentCount << endl;
-    cout << "Tests: " << testCount << endl;
+    
 
     // Allocate the Student array
     students = new Student[studentCount];
 
-    cout << "Allocated memory for " << studentCount << " students." << endl;
 
     // Allocate a score array for each student
     for (int student = 0; student < studentCount; student++)
     {
         students[student].scores = new double[testCount];
     }
-
-    cout << "Allocated score arrays for " << studentCount << " students." << endl;
 
     for (int student = 0; student < studentCount; student++)
 {
